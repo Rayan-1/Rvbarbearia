@@ -34,6 +34,30 @@
         #premiumText {
             font-size: 24px; /* Tamanho da fonte em pixels */
         }
+
+        #nextButton {
+            background-color: #007bff; /* Cor de fundo do botão */
+            color: #fff; /* Cor do texto do botão */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        #logoutButton {
+            background-color: #dc3545; /* Cor de fundo do botão de logout */
+            color: #fff; /* Cor do texto do botão de logout */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            position: fixed; /* Fixa o botão */
+            top: 10px; /* Distância do topo */
+            right: 10px; /* Distância da direita */
+        }
     </style>
 </head>
 <body>
@@ -41,9 +65,18 @@
     <div id="barberInfo">
         <img id="planImage" src="BARBERSHOP.png" alt="Plano de Barbeiro">
         <p id="premiumText">Ative o Premium Já!</p>
+        <button id="nextButton" onclick="window.location.href='pagamento.html'">Próximo</button>
+        <button id="logoutButton" onclick="logout()">Logout</button>
     </div>
 
-    
+    <script>
+        // Função para fazer logout
+        function logout() {
+            // Limpe as informações de autenticação (por exemplo, token de sessão) - Substitua isso com sua lógica real
+            // Redirecione o usuário para a página de login
+            window.location.href = 'login.html';
+        }
+    </script>
   
 </body>
 </html>
