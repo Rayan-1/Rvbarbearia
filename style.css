@@ -1,0 +1,59 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Cor de fundo suave */
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff; /* Cor de fundo branca */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 5px; /* Cantos arredondados */
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333; /* Cor do texto mais escura */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff; /* Cor de fundo branca */
+    padding: 20px;
+    border: 1px solid #ddd; /* Cor da borda mais clara */
+    border-radius: 5px; /* Cantos arredondados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+label {
+    margin-bottom: 8px;
+    color: #555; /* Cor do texto mais escura */
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd; /* Cor da borda mais clara */
+    border-radius: 3px; /* Cantos arredondados */
+}
+
+button {
+    background-color: #4caf50; /* Cor de fundo verde */
+    color: #fff; /* Cor do texto branco */
+    padding: 12px;
+    border: none;
+    border-radius: 3px; /* Cantos arredondados */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049; /* Cor de fundo verde mais escura ao passar o mouse */
+}

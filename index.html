@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Formulário de Cadastro de Barbeiro</title>
+</head>
+<body>
+    <h2>Cadastro de Barbeiro</h2>
+    <form id="barberForm">
+        <label for="barberName">Nome:</label>
+        <input type="text" id="barberName" name="barberName" required>
+
+        <label for="barberEmail">E-mail:</label>
+        <input type="email" id="barberEmail" name="barberEmail" required>
+
+        <label for="barberPhone">Telefone:</label>
+        <input type="tel" id="barberPhone" name="barberPhone" required>
+
+        <label for="barberUsername">Nome de Usuário:</label>
+        <input type="text" id="barberUsername" name="barberUsername" required>
+
+        <label for="barberPassword">Senha:</label>
+        <input type="password" id="barberPassword" name="barberPassword" required>
+
+        <button type="button" onclick="registerBarber()">Cadastrar</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
