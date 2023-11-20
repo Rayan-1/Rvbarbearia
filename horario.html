@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolher Horário</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #scheduleContainer {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .timeSlot {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .timeSlot:hover {
+            background-color: #e0e0e0;
+        }
+
+        .occupied {
+            background-color: #d9534f; /* Vermelho para indicar ocupado */
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scheduleContainer">
+        <h1>Escolha um Horário</h1>
+
+        <!-- Horários disponíveis serão gerados dinamicamente aqui -->
+        
+    </div>
+
+    <script>
+        // Array para rastrear horários ocupados
+        const occupiedSlots = [];
+
+        // Container para os horários
+        const scheduleContainer = document.getElementById('scheduleContainer');
+
+        // Função para gerar os horários disponíveis
+        function generateAvailableSchedule() {
+            for (let hour = 8; hour < 19; hour++) {
+                for (let minute = 0; minute < 60; minute += 40) {
+                    const timeSlot = document.createElement('div');
+                    const formattedTime = `${formatHour(hour)}:${formatMinute(minute)}`;
+
+                    timeSlot.classList.add('timeSlot');
+                    timeSlot.textContent = formattedTime;
+
+                    // Adiciona um evento de clique para escolher o horário
+                    timeSlot.addEventListener('click', () => chooseTimeSlot(formattedTime));
+
+                    scheduleContainer.appendChild(timeSlot);
+                }
+            }
+        }
+
+        // Função para formatar a hora (0-23) com dois dígitos
+        function formatHour(hour) {
+            return hour.toString().padStart(2, '0');
+        }
+
+        // Função para formatar os minutos com dois dígitos
+        function formatMinute(minute) {
+            return minute.toString().padStart(2, '0');
+        }
+
+        // Função para escolher um horário disponível
+        function chooseTimeSlot(formattedTime) {
+            const index = occupiedSlots.indexOf(formattedTime);
+
+            if (index === -1) {
+                // Horário está disponível, então permite escolher
+                const customerName = prompt('Digite seu nome:');
+                if (customerName) {
+                    occupiedSlots.push(formattedTime);
+                    updateSchedule();
+                    alert(`Horário escolhido para ${customerName}: ${formattedTime}`);
+                    // Aqui você pode adicionar lógica para enviar os dados para o servidor
+                    // Por exemplo: enviarDadosParaOServidor(customerName, formattedTime);
+                }
+            } else {
+                // Horário já está ocupado, informa ao usuário
+                alert('Este horário já foi escolhido. Escolha outro horário.');
+            }
+        }
+
+        // Função para atualizar a aparência da programação
+        function updateSchedule() {
+            const timeSlots = document.querySelectorAll('.timeSlot');
+
+            // Remove a classe 'occupied' de todos os horários
+            timeSlots.forEach(slot => {
+                slot.classList.remove('occupied');
+            });
+
+            // Adiciona a classe 'occupied' aos horários ocupados
+            occupiedSlots.forEach(occupiedTime => {
+                const matchingSlot = Array.from(timeSlots).find(slot => slot.textContent.includes(occupiedTime));
+                if (matchingSlot) {
+                    matchingSlot.classList.add('occupied');
+                }
+            });
+        }
+
+        // Gera os horários disponíveis iniciais
+        generateAvailableSchedule();
+        // Atualiza a aparência da programação
+        updateSchedule();
+    </script>
+
+</body>
+</html>

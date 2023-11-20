@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code do Pix</title>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .qrcode-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        #qrcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #qrcode {
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        p {
+            color: #000;
+            margin-top: 10px;
+        }
+
+        #backButton, #nextButton {
+            background-color: #007bff; /* Cor de fundo do botão */
+            color: #fff; /* Cor do texto do botão */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #nextButton {
+            background-color: #28a745; /* Cor de fundo do botão Próximo */
+        }
+    </style>
+</head>
+<body>
+    <div class="qrcode-container">
+        <h1>Ative o Rv Barber Premium por apenas 24,99R$ Mensais</h1>
+        <h2>Faça o Pagamento Via Pix</h2>
+        <div id="qrcode-container">
+            <div id="qrcode"></div>
+            <p id="chavePix"></p>
+        </div>
+        <button id="backButton" onclick="goBack()">Voltar</button>
+        <button id="nextButton" onclick="goToNextPage()">Próximo</button>
+    </div>
+
+    <script>
+        // Sua chave Pix
+        const chavePix = "88998007210";
+
+        // Constrói o payload Pix
+        const payloadPix = {
+            "pixKey": chavePix,
+            "description": "Ative o Rv Barber Premium",
+            "merchantName": "Rv Barber",
+            "merchantCity": "São Paulo",
+            "amount": "24.99",
+            "txid": "ID da transação"
+        };
+
+        // Converte o payload para JSON e depois para base64
+        const base64Payload = btoa(JSON.stringify(payloadPix));
+
+        // Monta a informação do Pix no formato adequado
+        const pixInfo = `00020126330014BR.GOV.BCB.PIX011108902688356520400005303986540525.005802BR5925Rayan Victor De Souza Fre6009SAO PAULO61080540900062250521qNFTeALUZswUuC41l88h363045DFB`;
+
+        // Cria o objeto QR Code
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: pixInfo,
+            width: 200,
+            height: 200,
+        });
+
+        // Exibe a chave Pix abaixo do QR Code
+        const chavePixElement = document.getElementById("chavePix");
+
+        // Função para voltar para a página anterior
+        function goBack() {
+            window.history.back();
+        }
+
+        // Função para ir para a próxima página (menu.html)
+        function goToNextPage() {
+            window.location.href = "menu.html";
+        }
+
+        // Defina a data de expiração do pacote premium (15 dias a partir de hoje)
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 15);
+
+        // Verifique se a data atual é posterior à data de expiração
+        if (new Date() > expirationDate) {
+            // Desative ou bloqueie o acesso e exiba uma mensagem
+            alert('Seu período de avaliação expirou. Ative o pacote premium.');
+        }
+    </script>
+</body>
+</html>

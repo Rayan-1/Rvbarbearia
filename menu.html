@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu de Agendamentos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #formContainer, #menuContainer {
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #menuContainer {
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .service {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .service:last-child {
+            border-bottom: none;
+        }
+
+        .serviceName {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .servicePrice {
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        #nameInput, #phoneInput, #submitButton {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #logoutButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #selectedServices {
+            margin-top: 20px;
+        }
+
+        #totalPrice {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #enviarButton {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="formContainer">
+        <h1>Bem-vindo ao RvBarber</h1>
+        <label for="nameInput">Nome:</label>
+        <input type="text" id="nameInput" placeholder="Seu Nome">
+
+        <label for="phoneInput">Telefone:</label>
+        <input type="tel" id="phoneInput" placeholder="Seu Telefone">
+
+        <button id="submitButton" onclick="showMenu()">Ver Menu</button>
+    </div>
+
+    <div id="menuContainer">
+        <button id="logoutButton" onclick="logout()">Logout</button>
+        <h1>Menu de Agendamentos</h1>
+
+        <div class="service" onclick="toggleService('Corte Social', 30.00)">
+            <div class="serviceName">Corte Social</div>
+            <div class="servicePrice">R$ 30,00</div>
+        </div>
+
+        <div class="service" onclick="toggleService('Degrade', 40.00)">
+            <div class="serviceName">Degrade</div>
+            <div class="servicePrice">R$ 40,00</div>
+        </div>
+
+        <div class="service" onclick="toggleService('Barba', 20.00)">
+            <div class="serviceName">Barba</div>
+            <div class="servicePrice">R$ 20,00</div>
+        </div>
+
+        <!-- Adicione mais serviços conforme necessário -->
+
+        <div id="selectedServices"></div>
+        <div id="totalPrice"></div>
+
+        <button id="marcarHorarioButton" onclick="marcarHorario()">Marcar Horário</button>
+    </div>
+
+    <script>
+        let selectedService = null;
+
+        function showMenu() {
+            const name = document.getElementById('nameInput').value;
+            const phone = document.getElementById('phoneInput').value;
+
+            if (name && phone) {
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('menuContainer').style.display = 'block';
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        }
+
+        function toggleService(name, price) {
+            selectedService = { name, price };
+            updateSelectedServices();
+        }
+
+        function updateSelectedServices() {
+            const selectedServicesDiv = document.getElementById('selectedServices');
+            selectedServicesDiv.innerHTML = `<strong>Serviço Selecionado:</strong> ${selectedService.name} - R$ ${selectedService.price.toFixed(2)}`;
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            const totalPriceDiv = document.getElementById('totalPrice');
+            totalPriceDiv.textContent = `Total: R$ ${selectedService.price.toFixed(2)}`;
+        }
+
+        function logout() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('menuContainer').style.display = 'none';
+            document.getElementById('nameInput').value = '';
+            document.getElementById('phoneInput').value = '';
+            selectedService = null;
+            updateSelectedServices();
+        }
+
+        function marcarHorario() {
+            const name = document.getElementById('nameInput').value;
+            const phone = document.getElementById('phoneInput').value;
+
+            if (name && phone && selectedService) {
+                // Aqui você pode adicionar lógica para enviar o agendamento para o servidor
+                const horario = obterHorarioDisponivel();
+                alert(`Agendamento confirmado:\n${selectedService.name} - R$ ${selectedService.price.toFixed(2)}\nHorário: ${horario}`);
+                enviarNotificacao(name, horario);
+                window.location.href = 'horario.html'; // Redireciona para a página horario.html
+            } else {
+                alert('Por favor, preencha todos os campos e escolha um serviço.');
+            }
+        }
+
+        function obterHorarioDisponivel() {
+            // Aqui você pode adicionar lógica para obter um horário disponível
+            // Por enquanto, retorna um horário fixo para teste
+            return 'escolha o horario';
+        }
+
+        function enviarNotificacao(nome, horario) {
+            if (Notification && Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification(`Agendamento Confirmado`, {
+                            body: `Seu agendamento para ${nome} foi confirmado para o horário ${horario}.`,
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
